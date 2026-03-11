@@ -25,14 +25,14 @@ OpenCode (Local)                         Claude Code (Cloud)
 ## Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/opencode-claude-workflow.git
+git clone https://github.com/bwguns/opencode-claude-workflow.git
 cd opencode-claude-workflow
 ./install.sh          # Install both sides
 ./install.sh opencode # OpenCode only
 ./install.sh claude   # Claude Code only
 ```
 
-The installer automatically appends handoff integration to your existing deep-research-agent (idempotent — safe to run multiple times).
+The installer copies all agents and commands to the correct config directories. No additional configuration required.
 
 ## Workflow
 
@@ -137,6 +137,7 @@ your-project/
 |------|------|---------|
 | Agent | `the-architect` | Project scoping and architecture |
 | Agent | `handoff-agent` | Validates and finalizes handoff |
+| Agent | `deep-research-agent` | Web research with handoff integration |
 | Command | `/scope` | Start project scoping |
 | Command | `/research` | Investigate technologies and patterns |
 | Command | `/plan-handoff` | Create implementation plan |
@@ -150,6 +151,11 @@ your-project/
 | Type | Name | Purpose |
 |------|------|---------|
 | Agent | `handoff-receiver` | Reads handoff and orchestrates implementation |
+| Agent | `planner` | Implementation planning and step breakdown |
+| Agent | `tdd-guide` | Test-driven development enforcement |
+| Agent | `code-reviewer` | Code quality and security review |
+| Agent | `security-reviewer` | OWASP Top 10 vulnerability detection |
+| Agent | `build-error-resolver` | Fix build/type errors with minimal diffs |
 | Command | `/receive-handoff` | Process handoff from OpenCode |
 | Command | `/send-feedback` | Write questions back to OpenCode |
 | Command | `/handoff-status` | Show current handoff state |

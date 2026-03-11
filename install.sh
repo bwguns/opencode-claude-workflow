@@ -29,8 +29,10 @@ install_opencode() {
     echo "  Installing agents..."
     cp "$SCRIPT_DIR/opencode/agents/the-architect.md" "$OPENCODE_CONFIG/agents/"
     cp "$SCRIPT_DIR/opencode/agents/handoff-agent.md" "$OPENCODE_CONFIG/agents/"
+    cp "$SCRIPT_DIR/opencode/agents/deep-research-agent.md" "$OPENCODE_CONFIG/agents/"
     echo "    + the-architect.md"
     echo "    + handoff-agent.md"
+    echo "    + deep-research-agent.md"
 
     # Commands
     echo "  Installing commands..."
@@ -49,24 +51,9 @@ install_opencode() {
     echo "    + /handoff-status"
     echo "    + /init-handoff"
 
-    # Enhance deep-research-agent
-    # Enhance deep-research-agent (idempotent)
-    RESEARCH_AGENT="$OPENCODE_CONFIG/agents/deep-research-agent.md"
-    if [ -f "$RESEARCH_AGENT" ]; then
-        if ! grep -q "Handoff Integration" "$RESEARCH_AGENT" 2>/dev/null; then
-            echo "  Appending handoff integration to deep-research-agent..."
-            # Extract only the content section (skip the instruction header)
-            sed -n '/^## Handoff Integration$/,$p' "$SCRIPT_DIR/opencode/agents/deep-research-agent-additions.md" >> "$RESEARCH_AGENT"
-            echo "    + deep-research-agent handoff integration"
-        else
-            echo "  deep-research-agent already has handoff integration (skipped)"
-        fi
-    else
-        echo ""
-        echo "  NOTE: deep-research-agent.md not found at $RESEARCH_AGENT"
-        echo "  Create it first, then re-run install to add handoff support."
-        echo ""
-    fi
+    echo ""
+    echo "  NOTE: deep-research-agent.md includes handoff integration."
+    echo "  If you had a customized version, back it up before running install."
 
     echo "  OpenCode installation complete."
 }
@@ -74,11 +61,13 @@ install_opencode() {
 install_claude_code() {
     echo "=== Installing Claude Code components ==="
 
-    # Agent
+    # Agents
     mkdir -p "$CLAUDE_CONFIG/agents"
     echo "  Installing agents..."
-    cp "$SCRIPT_DIR/claude-code/agents/handoff-receiver.md" "$CLAUDE_CONFIG/agents/"
-    echo "    + handoff-receiver.md"
+    for agent in "$SCRIPT_DIR"/claude-code/agents/*.md; do
+        cp "$agent" "$CLAUDE_CONFIG/agents/"
+        echo "    + $(basename "$agent")"
+    done
 
     # Commands
     mkdir -p "$CLAUDE_CONFIG/commands"

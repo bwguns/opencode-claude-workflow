@@ -31,6 +31,17 @@ After writing the research file, update `.handoff/handoff.json` to set the resea
 
 IMPORTANT: Follow all hallucination prevention rules. Only report what you actually find. Cite every source.
 
+## Workflow Continuity
+
+- If I ask follow-up questions or want deeper research on a subtopic, continue researching and update the research document.
+- Do NOT consider this phase done until I confirm the research is sufficient.
+- Once I confirm, tell me:
+
+```
+Research complete! Next step:
+  /plan-handoff   — Create the implementation plan based on scope and research
+```
+
 Research topic: $ARGUMENTS
 
 If no topic given, read `.handoff/001-scope.md` and research the technologies and approaches needed for that scope.

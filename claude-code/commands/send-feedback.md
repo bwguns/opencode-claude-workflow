@@ -20,6 +20,18 @@ Write implementation feedback, questions, or blockers to `.handoff/004-feedback.
    - Set `status` to `needs-clarification` (if questions) or `in-progress` (if just updates)
    - Update the `updated` timestamp
 4. Update `.handoff/handoff.json` timestamp
-5. Tell the user to open OpenCode to review the feedback
+
+## Workflow Continuity
+
+- After writing the feedback, tell the user:
+
+```
+Feedback written to .handoff/004-feedback.md
+
+Next step — switch to OpenCode and run:
+  /review-feedback
+
+Once feedback is addressed, return here to continue implementation.
+```
 
 Feedback: $ARGUMENTS

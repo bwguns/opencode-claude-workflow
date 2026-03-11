@@ -15,4 +15,17 @@ Validate and finalize the `.handoff/` directory for Claude Code pickup.
 If $ARGUMENTS contains "force", skip gap warnings and finalize anyway.
 If $ARGUMENTS contains "status", just show current handoff state without finalizing.
 
+## Workflow Continuity
+
+- If there are gaps or issues, list them clearly and ask me if I want to fix them or proceed anyway.
+- Keep working until all issues are resolved or I choose to proceed.
+- Once the handoff is finalized, tell me:
+
+```
+Handoff complete! The .handoff/ package is ready.
+
+Next step — switch to Claude Code in this project directory and run:
+  /receive-handoff
+```
+
 $ARGUMENTS

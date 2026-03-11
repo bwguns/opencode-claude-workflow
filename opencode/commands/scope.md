@@ -17,4 +17,16 @@ Follow your full scoping process:
 
 Do NOT write any code. Focus entirely on understanding and documenting what needs to be built.
 
+## Workflow Continuity
+
+- Keep working on scoping until I confirm the scope is complete. If I have changes or additions, incorporate them and present the updated scope again.
+- Do NOT consider this phase done until I explicitly approve the scope.
+- Once I approve, tell me:
+
+```
+Scope complete! Next steps:
+  /research <topic>   — Research technologies and approaches for this project
+  /plan-handoff       — Skip research and go straight to planning (for simpler projects)
+```
+
 Project: $ARGUMENTS

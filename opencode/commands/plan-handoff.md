@@ -32,4 +32,15 @@ updated: <current datetime>
 
 Do NOT write any implementation code. Focus on planning.
 
+## Workflow Continuity
+
+- If I want changes to the plan (different phases, different approach, add/remove steps), update the plan and present it again.
+- Do NOT consider this phase done until I explicitly approve the plan.
+- Once I approve, tell me:
+
+```
+Plan complete! Next step:
+  /handoff   — Validate and finalize the handoff package for Claude Code
+```
+
 Additional context: $ARGUMENTS

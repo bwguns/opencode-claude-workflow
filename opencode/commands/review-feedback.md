@@ -20,6 +20,16 @@ Claude Code has written feedback to `.handoff/004-feedback.md`. Review it and re
    - Add responses under each item
    - Set status to "ready" (addressed)
    - Set author to "opencode"
-6. Tell the user to return to Claude Code to continue implementation
+
+## Workflow Continuity
+
+- Walk through each feedback item with me. If I want to modify a response or investigate further, keep working on it.
+- Do NOT consider this phase done until all feedback items are addressed and I confirm.
+- Once I confirm, tell me:
+
+```
+Feedback addressed! Next step — switch to Claude Code and continue implementation.
+Claude Code will read the updated feedback automatically.
+```
 
 $ARGUMENTS

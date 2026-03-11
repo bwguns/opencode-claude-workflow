@@ -8,12 +8,11 @@ A file-based collaboration system where **OpenCode** (local LLMs) handles projec
 OpenCode (Local)                         Claude Code (Cloud)
 ┌──────────────────────┐                ┌──────────────────────┐
 │                      │                │                      │
-│  /init-handoff       │   .handoff/    │  /receive-handoff    │
-│  /scope              │ ──────────────>│  /send-feedback      │
-│  /research           │                │  /handoff-status     │
-│  /plan-handoff       │ <──────────────│                      │
-│  /handoff            │   feedback     │  (implements code)   │
-│  /review-feedback    │                │                      │
+│  /scope              │   .handoff/    │  /receive-handoff    │
+│  /research           │ ──────────────>│  /send-feedback      │
+│  /plan-handoff       │                │  /handoff-status     │
+│  /handoff            │ <──────────────│                      │
+│  /review-feedback    │   feedback     │  (implements code)   │
 │  /handoff-status     │                │                      │
 │                      │                │                      │
 │  The Architect       │                │  handoff-receiver    │
@@ -39,21 +38,13 @@ The installer copies all agents and commands to the correct config directories. 
 
 ## Workflow
 
-### Phase 0: Initialize (OpenCode)
-
-```
-opencode> /init-handoff
-```
-
-Creates the `.handoff/` directory with templates in your project root.
-
 ### Phase 1: Scope (OpenCode)
 
 ```
 opencode> /scope Build a REST API for task management with user auth
 ```
 
-The Architect interviews you, analyzes the codebase, and writes `.handoff/001-scope.md`.
+The Architect creates the `.handoff/` directory (if it doesn't exist), interviews you about requirements, and writes `.handoff/001-scope.md`.
 
 ### Phase 2: Research (OpenCode)
 
@@ -147,7 +138,6 @@ your-project/
 | Command | `/handoff` | Validate and finalize for Claude Code |
 | Command | `/review-feedback` | Address Claude Code's questions |
 | Command | `/handoff-status` | Check current handoff state |
-| Command | `/init-handoff` | Initialize .handoff/ in project |
 
 ### Claude Code (`~/.claude/`)
 

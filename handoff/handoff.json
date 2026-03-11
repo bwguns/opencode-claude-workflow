@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "project": "",
+  "current_phase": "scope",
+  "owner": "opencode",
+  "created": "",
+  "updated": "",
+  "phases": {
+    "scope": { "status": "draft", "file": "001-scope.md" },
+    "research": { "status": "draft", "file": "002-research.md" },
+    "plan": { "status": "draft", "file": "003-plan.md" },
+    "feedback": { "status": "draft", "file": "004-feedback.md" },
+    "implementation": { "status": "draft", "owner": "claude-code" },
+    "review": { "status": "draft", "owner": "claude-code" }
+  }
+}

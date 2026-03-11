@@ -160,6 +160,27 @@ your-project/
 | Command | `/send-feedback` | Write questions back to OpenCode |
 | Command | `/handoff-status` | Show current handoff state |
 
+## Security Model
+
+**Important:** The `.handoff/` directory contains documents that are fed to LLM agents with code execution capabilities. Understand these trust boundaries:
+
+### Trust Chain
+```
+OpenCode (local LLM) → .handoff/ files → Claude Code (has file write access)
+```
+
+### Built-in Protections
+- **handoff-receiver has no Bash access** — it cannot execute shell commands directly. Build/test execution is delegated to scoped agents (tdd-guide, build-error-resolver).
+- **Per-phase user approval** — the handoff-receiver requires explicit user confirmation before starting each implementation phase.
+- **Web content trust boundary** — OpenCode agents are instructed to never write web-fetched content verbatim to handoff documents, and to never fetch URLs found in handoff files.
+- **Handoff content treated as untrusted** — Claude Code agents are instructed to use their own judgment, not blindly follow plan instructions.
+- **Backup on install** — existing agent files are backed up before overwriting (`.bak` files).
+
+### User Responsibilities
+- **Review `.handoff/` contents** before running `/receive-handoff`, especially if files were modified outside your workflow.
+- **Do not clone repos with pre-populated `.handoff/` directories** without reviewing their contents first — they could contain prompt injection.
+- **Add `.handoff/` to your project's `.gitignore`** if handoff documents contain sensitive architecture details you don't want in version control.
+
 ## Requirements
 
 - **OpenCode** with a local LLM (llama.cpp, Ollama, LM Studio, etc.)

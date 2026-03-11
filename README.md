@@ -224,6 +224,51 @@ You can mix and match models per agent — for example, use `opus` for the hando
 - **Claude Code** CLI installed and authenticated
 - Both tools must have access to the same project directory
 
+## Recommended MCP Servers
+
+The workflow benefits from MCP (Model Context Protocol) servers that extend the agents' capabilities. These are optional but recommended for the full experience.
+
+### OpenCode MCP Servers
+
+Add these to the `"mcp"` section of your `opencode.json` (project or global config):
+
+| Server | Purpose | Config |
+|--------|---------|--------|
+| **context7** | Library documentation lookup | `{ "type": "remote", "url": "https://mcp.context7.com/mcp" }` |
+| **grep_app** | Search code across public repos | `{ "type": "remote", "url": "https://mcp.grep.app" }` |
+| **websearch** | DuckDuckGo web search (used by deep-research-agent) | `{ "type": "local", "command": ["npx", "-y", "duckduckgo-mcp-server"] }` |
+| **filesystem** | Direct file system access | `{ "type": "local", "command": ["npx", "-y", "@modelcontextprotocol/server-filesystem", "/path/to/home"] }` |
+| **exa** | Advanced web search and crawling | `{ "type": "remote", "url": "https://mcp.exa.ai/mcp?tools=web_search_exa,crawling_exa" }` |
+
+**Most important for this workflow:** `websearch` (powers the `/research` command) and `context7` (helps agents find library docs during planning).
+
+Example `opencode.json` snippet:
+```jsonc
+{
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    },
+    "websearch": {
+      "type": "local",
+      "command": ["npx", "-y", "duckduckgo-mcp-server"],
+      "enabled": true
+    }
+  }
+}
+```
+
+### Claude Code MCP Servers
+
+Claude Code has built-in web search and file access, so fewer MCP servers are needed. Useful additions:
+
+| Server | Purpose | Install |
+|--------|---------|---------|
+| **context7** | Library documentation lookup | Available as a Claude Code plugin or via `claude mcp add context7 --url https://mcp.context7.com/mcp` |
+| **playwright** | E2E testing (used by e2e-runner agent) | `claude mcp add playwright -- npx @anthropic-ai/mcp-playwright` |
+
 ## Tips
 
 - Run `/handoff-status` before switching tools to check current state

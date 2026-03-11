@@ -17,8 +17,11 @@ OpenCode (Local)                         Claude Code (Cloud)
 │  /handoff-status     │                │                      │
 │                      │                │                      │
 │  The Architect       │                │  handoff-receiver    │
-│  deep-research-agent │                │  + existing agents   │
-│  handoff-agent       │                │                      │
+│  deep-research-agent │                │  planner             │
+│  handoff-agent       │                │  tdd-guide           │
+│                      │                │  code-reviewer       │
+│                      │                │  security-reviewer   │
+│                      │                │  build-error-resolver│
 └──────────────────────┘                └──────────────────────┘
 ```
 
@@ -148,17 +151,30 @@ your-project/
 
 ### Claude Code (`~/.claude/`)
 
+#### Handoff Agents
 | Type | Name | Purpose |
 |------|------|---------|
 | Agent | `handoff-receiver` | Reads handoff and orchestrates implementation |
+
+#### Implementation Agents
+These agents are used by the handoff-receiver during implementation. They can also be used independently outside the handoff workflow.
+
+| Type | Name | Purpose |
+|------|------|---------|
 | Agent | `planner` | Implementation planning and step breakdown |
-| Agent | `tdd-guide` | Test-driven development enforcement |
-| Agent | `code-reviewer` | Code quality and security review |
-| Agent | `security-reviewer` | OWASP Top 10 vulnerability detection |
+| Agent | `tdd-guide` | Test-driven development enforcement (80%+ coverage) |
+| Agent | `code-reviewer` | Code quality, security, and maintainability review |
+| Agent | `security-reviewer` | OWASP Top 10 vulnerability detection and remediation |
 | Agent | `build-error-resolver` | Fix build/type errors with minimal diffs |
+
+#### Commands
+| Type | Name | Purpose |
+|------|------|---------|
 | Command | `/receive-handoff` | Process handoff from OpenCode |
 | Command | `/send-feedback` | Write questions back to OpenCode |
 | Command | `/handoff-status` | Show current handoff state |
+
+> **Note:** If you already have agents with these names in `~/.claude/agents/`, the installer will back up your existing files (`.bak`) before overwriting. You can also use any additional Claude Code agents you already have — the handoff-receiver orchestrates work but does not limit which agents are available.
 
 ## Security Model
 
@@ -180,6 +196,37 @@ OpenCode (local LLM) → .handoff/ files → Claude Code (has file write access)
 - **Review `.handoff/` contents** before running `/receive-handoff`, especially if files were modified outside your workflow.
 - **Do not clone repos with pre-populated `.handoff/` directories** without reviewing their contents first — they could contain prompt injection.
 - **Add `.handoff/` to your project's `.gitignore`** if handoff documents contain sensitive architecture details you don't want in version control.
+
+## Model Configuration
+
+### Defaults
+
+| Tool | Default Model | Set In |
+|------|--------------|--------|
+| **OpenCode** agents | `llama-cpp/qwen3.5-9b` (local) | Agent frontmatter: `model: llama-cpp/qwen3.5-9b` |
+| **Claude Code** agents | `opus` (Claude Opus 4.6) | Agent frontmatter: `model: opus` |
+
+### Changing Models
+
+**OpenCode:** Edit the `model:` field in the agent's frontmatter at `~/.config/opencode/agents/<agent>.md`. The model must match a provider/model-id defined in your `opencode.json` config.
+
+```yaml
+# Example: switch The Architect to a larger reasoning model
+---
+model: llama-cpp/qwen3.5-27b
+---
+```
+
+**Claude Code:** Edit the `model:` field in the agent's frontmatter at `~/.claude/agents/<agent>.md`. Valid values are `opus`, `sonnet`, and `haiku`.
+
+```yaml
+# Example: switch tdd-guide to Sonnet for faster iteration
+---
+model: sonnet
+---
+```
+
+You can mix and match models per agent — for example, use `opus` for the handoff-receiver and code-reviewer (where deep reasoning matters) and `sonnet` for the build-error-resolver (where speed matters).
 
 ## Requirements
 
